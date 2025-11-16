@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "../context/CartContext";
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -68,9 +69,11 @@ export default function CartPage() {
                     key={`${item.id}-${index}`}
                     className="bg-white rounded-3xl shadow-lg p-6 flex items-center space-x-6 transition hover:shadow-xl"
                   >
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
+                      width={96}
+                      height={96}
                       className="w-24 h-24 object-contain flex-shrink-0 bg-gray-50 rounded-2xl p-2"
                     />
 
