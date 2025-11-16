@@ -50,8 +50,8 @@ export default function CartPage() {
                 Your cart is empty
               </h2>
               <p className="text-gray-500 mb-8 max-w-md mx-auto">
-                Looks like you haven't added any items to your cart yet. Start
-                shopping to discover amazing products!
+                Looks like you haven&apos;t added any items to your cart yet.
+                Start shopping to discover amazing products!
               </p>
               <Link href="/Products">
                 <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition shadow-lg hover:shadow-xl">
