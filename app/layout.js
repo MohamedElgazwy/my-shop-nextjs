@@ -6,7 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 
 export const metadata = {
-  title: "MarketPro - Your Shopping Destination",
+  title: "MyShop",
   description: "Discover amazing products at unbeatable prices",
 };
 
