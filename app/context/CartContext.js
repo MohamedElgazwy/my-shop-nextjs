@@ -13,12 +13,25 @@ export const CartProvider = ({ children }) => {
       const existingItem = prev.find((i) => i.id === item.id);
       if (existingItem) {
         return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === item.id ? { ...i, quantity: (i.quantity || 1) + 1 } : i
         );
       } else {
         return [...prev, { ...item, quantity: 1 }];
       }
     });
+  };
+
+  const updateQuantity = (id, newQuantity) => {
+    if (newQuantity < 1) {
+      removeFromCart(id);
+      return;
+    }
+
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
   };
 
   const clearCart = () => {
@@ -35,6 +48,7 @@ export const CartProvider = ({ children }) => {
         cartItems,
         addToCart,
         removeFromCart,
+        updateQuantity,
         clearCart,
         searchTerm,
         setSearchTerm,

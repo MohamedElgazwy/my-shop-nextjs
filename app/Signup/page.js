@@ -21,7 +21,7 @@ export default function SignupPage() {
       password.length >= 6
     ) {
       toast.success("Account created successfully!");
-      router.push("/login");
+      router.push("/Products");
     } else {
       toast.error("Please enter valid details");
     }

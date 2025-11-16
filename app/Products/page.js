@@ -8,6 +8,7 @@ export default function ProductsPage() {
   const { searchTerm } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const PRODUCTS_API = "https://fakestoreapi.com/products";
 
@@ -17,6 +18,7 @@ export default function ProductsPage() {
         const res = await fetch(PRODUCTS_API);
         const data = await res.json();
         setProducts(data);
+        setFilteredProducts(data);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -27,26 +29,59 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const filtered = products.filter((product) =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchTerm, products]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-center text-blue-700 mb-10">
-          Products
-        </h1>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50">
+      <div className="container mx-auto px-4 py-12">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            Discover Amazing Products
+          </h1>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Explore our curated collection of high-quality products at
+            unbeatable prices
+          </p>
+        </div>
 
+        {/* Loading State */}
         {loading ? (
-          <p className="text-center text-gray-600">Loading products...</p>
+          <div className="flex justify-center items-center py-20">
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600 text-lg">
+                Loading amazing products...
+              </p>
+            </div>
+          </div>
         ) : filteredProducts.length === 0 ? (
-          <p className="text-center text-gray-600">No products found.</p>
+          <div className="text-center py-20">
+            <div className="w-24 h-24 mx-auto mb-4 text-gray-400">🔍</div>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-2">
+              No products found
+            </h3>
+            <p className="text-gray-500">Try adjusting your search terms</p>
+          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        )}
+
+        {/* Results Count */}
+        {!loading && filteredProducts.length > 0 && (
+          <div className="text-center mt-12">
+            <p className="text-gray-600">
+              Showing {filteredProducts.length} of {products.length} products
+            </p>
           </div>
         )}
       </div>

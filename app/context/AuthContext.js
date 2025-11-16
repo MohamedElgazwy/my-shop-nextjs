@@ -17,13 +17,13 @@ export const AuthProvider = ({ children }) => {
   const login = () => {
     localStorage.setItem("isLoggedIn", "true");
     setIsLoggedIn(true);
-    router.push("/Products"); // تحويل المستخدم لصفحة المنتجات بعد تسجيل الدخول
+    router.push("/Products");
   };
 
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
-    router.push("/StartPage"); // تحويل المستخدم لصفحة البداية بعد تسجيل الخروج
+    router.push("/StartPage");
   };
 
   return (
