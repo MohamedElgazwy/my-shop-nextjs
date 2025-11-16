@@ -4,10 +4,7 @@ function Footer() {
       <div className="container mx-auto px-2 sm:px-4 text-center">
         <div className="flex flex-col items-center space-y-2 sm:space-y-4">
           <h2 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Made with 💖 by{" "}
-            <span className="font-mono text-xs sm:text-base">
-              Mohamed Aljazwi
-            </span>
+            Made with by Mohamed Aljazwi
           </h2>
           <p className="text-gray-400 text-xs sm:text-sm max-w-md">
             Your trusted destination for quality products and exceptional
