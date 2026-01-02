@@ -1,40 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useProducts } from "../context/ProductsContext";
 import { useCart } from "../context/CartContext";
 import ProductCard from "../components/ProductCard";
 
 export default function ProductsPage() {
+  const { products, loading } = useProducts();
   const { searchTerm } = useCart();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const PRODUCTS_API = "https://fakestoreapi.com/products";
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch(PRODUCTS_API);
-        const data = await res.json();
-        setProducts(data);
-        setFilteredProducts(data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    const filtered = products.filter((product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  }, [searchTerm, products]);
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50">
@@ -50,7 +26,7 @@ export default function ProductsPage() {
           </p>
         </div>
 
-        {/* Loading State */}
+        {/* Loading */}
         {loading ? (
           <div className="flex justify-center items-center py-20">
             <div className="text-center">

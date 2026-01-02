@@ -20,7 +20,7 @@ export default function LoginPage() {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (email.endsWith("@gmail.com") && /^\d{6}$/.test(password)) {
-      login();
+      login(email);
       toast.success("Welcome back! Login successful!");
       router.push("/Products");
     } else {
