@@ -1,9 +1,10 @@
 "use client";
 
-import { useCart } from "../context/CartContext";
 import { useState } from "react";
+import { useCart } from "../context/CartContext";
+import type { Product } from "../types";
 
-function ProductCard({ product }) {
+function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isAdding, setIsAdding] = useState(false);

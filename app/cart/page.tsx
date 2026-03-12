@@ -1,32 +1,27 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { useCart } from "../context/CartContext";
+import Link from "next/link";
 import ProtectedRoute from "../components/ProtectedRoute";
+import { useCart } from "../context/CartContext";
+import type { CartItem } from "../types";
 
 export default function CartPage() {
   const { cartItems, removeFromCart, addToCart } = useCart();
 
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * (item.quantity || 1),
-    0
+    0,
   );
 
-  const updateQuantity = (item, newQuantity) => {
+  const updateQuantity = (item: CartItem, newQuantity: number) => {
     if (newQuantity < 1) {
       removeFromCart(item.id);
       return;
     }
 
-    const updatedItems = cartItems.map((cartItem) =>
-      cartItem.id === item.id
-        ? { ...cartItem, quantity: newQuantity }
-        : cartItem
-    );
-
     removeFromCart(item.id);
-    for (let i = 0; i < newQuantity; i++) {
+    for (let i = 0; i < newQuantity; i += 1) {
       addToCart(item);
     }
   };
@@ -47,12 +42,10 @@ export default function CartPage() {
           {cartItems.length === 0 ? (
             <div className="bg-white rounded-3xl shadow-xl p-12 text-center">
               <div className="w-24 h-24 mx-auto mb-6 text-gray-400">🛒</div>
-              <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-                Your cart is empty
-              </h2>
+              <h2 className="text-2xl font-semibold text-gray-700 mb-4">Your cart is empty</h2>
               <p className="text-gray-500 mb-8 max-w-md mx-auto">
-                Looks like you haven&apos;t added any items to your cart yet.
-                Start shopping to discover amazing products!
+                Looks like you haven&apos;t added any items to your cart yet. Start shopping to
+                discover amazing products!
               </p>
               <Link href="/Products">
                 <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition shadow-lg hover:shadow-xl">
@@ -62,7 +55,6 @@ export default function CartPage() {
             </div>
           ) : (
             <div className="grid lg:grid-cols-3 gap-8">
-              {/* Cart Items */}
               <div className="lg:col-span-2 space-y-6">
                 {cartItems.map((item, index) => (
                   <div
@@ -78,19 +70,13 @@ export default function CartPage() {
                     />
 
                     <div className="flex-grow">
-                      <h3 className="font-semibold text-gray-800 line-clamp-2 mb-2">
-                        {item.title}
-                      </h3>
-                      <p className="text-2xl font-bold text-blue-600 mb-3">
-                        ${item.price}
-                      </p>
+                      <h3 className="font-semibold text-gray-800 line-clamp-2 mb-2">{item.title}</h3>
+                      <p className="text-2xl font-bold text-blue-600 mb-3">${item.price}</p>
 
                       <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-2 bg-gray-100 rounded-xl px-3 py-1">
                           <button
-                            onClick={() =>
-                              updateQuantity(item, (item.quantity || 1) - 1)
-                            }
+                            onClick={() => updateQuantity(item, (item.quantity || 1) - 1)}
                             className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 transition"
                           >
                             -
@@ -99,9 +85,7 @@ export default function CartPage() {
                             {item.quantity || 1}
                           </span>
                           <button
-                            onClick={() =>
-                              updateQuantity(item, (item.quantity || 1) + 1)
-                            }
+                            onClick={() => updateQuantity(item, (item.quantity || 1) + 1)}
                             className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 transition"
                           >
                             +
@@ -126,12 +110,9 @@ export default function CartPage() {
                 ))}
               </div>
 
-              {/* Order Summary */}
               <div className="lg:col-span-1">
                 <div className="bg-white rounded-3xl shadow-lg p-6 sticky top-24">
-                  <h3 className="text-xl font-bold text-gray-800 mb-6">
-                    Order Summary
-                  </h3>
+                  <h3 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h3>
 
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between text-gray-600">
@@ -142,27 +123,15 @@ export default function CartPage() {
                       <span>Shipping</span>
                       <span className="text-green-600">Free</span>
                     </div>
-                    <div className="flex justify-between text-gray-600">
-                      <span>Tax</span>
-                      <span>${(totalPrice * 0.1).toFixed(2)}</span>
-                    </div>
-                    <div className="border-t pt-4">
-                      <div className="flex justify-between text-lg font-bold text-gray-800">
-                        <span>Total</span>
-                        <span>${(totalPrice * 1.1).toFixed(2)}</span>
-                      </div>
+                    <div className="border-t pt-4 flex justify-between text-xl font-bold text-gray-800">
+                      <span>Total</span>
+                      <span>${totalPrice.toFixed(2)}</span>
                     </div>
                   </div>
 
                   <Link href="/Checkout">
-                    <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition shadow-lg hover:shadow-xl mb-4">
+                    <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition shadow-lg hover:shadow-xl">
                       Proceed to Checkout
-                    </button>
-                  </Link>
-
-                  <Link href="/Products">
-                    <button className="w-full border border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition">
-                      Continue Shopping
                     </button>
                   </Link>
                 </div>

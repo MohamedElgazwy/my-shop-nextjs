@@ -1,47 +1,40 @@
 "use client";
 
-import { useProducts } from "../context/ProductsContext";
-import { useCart } from "../context/CartContext";
 import ProductCard from "../components/ProductCard";
+import { useCart } from "../context/CartContext";
+import { useProducts } from "../context/ProductsContext";
 
 export default function ProductsPage() {
   const { products, loading } = useProducts();
   const { searchTerm } = useCart();
 
   const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    product.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50">
       <div className="container mx-auto px-2 py-6 sm:px-4 sm:py-12">
-        {/* Header */}
         <div className="text-center mb-8 sm:mb-16">
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2 sm:mb-4">
             Discover Amazing Products
           </h1>
           <p className="text-gray-600 text-xs sm:text-sm md:text-lg max-w-2xl mx-auto">
-            Explore our curated collection of high-quality products at
-            unbeatable prices
+            Explore our curated collection of high-quality products at unbeatable prices
           </p>
         </div>
 
-        {/* Loading */}
         {loading ? (
           <div className="flex justify-center items-center py-20">
             <div className="text-center">
               <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600 text-lg">
-                Loading amazing products...
-              </p>
+              <p className="text-gray-600 text-lg">Loading amazing products...</p>
             </div>
           </div>
         ) : filteredProducts.length === 0 ? (
           <div className="text-center py-20">
             <div className="w-24 h-24 mx-auto mb-4 text-gray-400">🔍</div>
-            <h3 className="text-2xl font-semibold text-gray-700 mb-2">
-              No products found
-            </h3>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-2">No products found</h3>
             <p className="text-gray-500">Try adjusting your search terms</p>
           </div>
         ) : (
@@ -52,7 +45,6 @@ export default function ProductsPage() {
           </div>
         )}
 
-        {/* Results Count */}
         {!loading && filteredProducts.length > 0 && (
           <div className="text-center mt-12">
             <p className="text-gray-600">
